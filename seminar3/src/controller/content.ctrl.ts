@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-const content = require('../database/data.json');
+import { getContentInfo } from "../service/contentService";
 
-const getContent = (req: Request, res: Response) => {
+const getContent = async (req: Request, res: Response) => {
     let {contentId} = req.params;
-    let contentInfo = content[contentId];
+    let contentInfo = await getContentInfo(contentId);
 
     if (!contentInfo) {
         return res.status(404).json({
