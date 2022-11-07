@@ -1,18 +1,10 @@
 // src/api/content.ts
 
-import express, { Request, Response, Router } from "express";
-const content = require('../database/data.json');
+import express, { Router } from "express";
+const ctrl = require('../controller/content.ctrl');
 
 const router: Router = express.Router();
 
-router.get("/:contentId", (req: Request, res: Response) => {
-    let contentId = req.params.contentId;
-
-  return res.status(200).json({
-    status: 200,
-    message: `${content[contentId]["title"]} 조회 성공`,
-    data: content[contentId]
-  });
-});
+router.get('/:contentId', ctrl.getContent);
 
 module.exports = router;
