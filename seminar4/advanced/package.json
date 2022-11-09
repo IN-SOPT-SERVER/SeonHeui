@@ -6,9 +6,5 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc && node dist"
-  },
-  "dependencies": {
-    "@prisma/client": "^4.6.0",
-    "prisma": "^4.6.0"
   }
 }
