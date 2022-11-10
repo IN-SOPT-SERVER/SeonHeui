@@ -8,12 +8,38 @@ datasource db {
 }
 
 model Content {
-  id         Int     @id @default(autoincrement())
-  title      String? @db.VarChar(400)
-  actor      String? @db.VarChar(300)
-  genre      String? @db.VarChar(300)
+  id         Int       @id @default(autoincrement())
+  title      String?   @db.VarChar(400)
+  actor      String?   @db.VarChar(300)
+  genre      String?   @db.VarChar(300)
   year       Int?
   age        Int?
   episodeNum Int?
-  image      String? @db.VarChar(500)
+  image      String?   @db.VarChar(500)
+  Episode    Episode[]
+  Like       Like[]
+}
+
+model Episode {
+  id         Int      @id @default(autoincrement())
+  contentId  Int?
+  episodeNum Int?
+  contents   String?  @db.VarChar(400)
+  time       Int?
+  Content    Content? @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "episode_content_id_fk")
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  contentId Int?
+  Content   Content? @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "like_content_id_fk")
+  User      User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "like_user_id_fk")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  userName String  @db.VarChar(100)
+  email    String? @db.VarChar(400)
+  Like     Like[]
 }

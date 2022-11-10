@@ -32,6 +32,29 @@ const getContent = async ( req: Request, res: Response ) => {
     return res.status(200).json({ status: 200, message: "content 조회 성공", data});
 };
 
+//* episode 조회
+const getAllEpisode = async ( req: Request, res: Response ) => {
+    const { contentId } = req.params;
+
+    const data = await contentService.getAllEpisode(+contentId);
+
+    if (!data) {
+        return res.status(404).json({ status: 404, message: "NOT_FOUND" });
+    }
+    return res.status(200).json({ status: 200, message: "episode 조회 성공", data});
+};
+
+//* 찜한 content 조회
+const getLikeAllContent = async ( req: Request, res: Response ) => {
+    const { userId } = req.params;
+
+    const data = await contentService.getLikeAllContent(+userId);
+    if (!data) {
+        return res.status(404).json({ status: 404, message: "NOT_FOUND" });
+    }
+    return res.status(200).json({ status: 200, message: "찜한 목록 조회 성공", data});
+};
+
 //* content 업데이트
 const updateContent = async ( req: Request, res: Response ) => {
     const { contentId } = req.params;
@@ -55,6 +78,8 @@ const contentController = {
     getContent,
     updateContent,
     deleteContent,
+    getAllEpisode,
+    getLikeAllContent,
 };
 
 export default contentController;

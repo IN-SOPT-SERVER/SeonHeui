@@ -19,9 +19,39 @@ const getAllContent = async () => {
 
 //* 특정 content 조회
 const getContent = async (contentId: number) => {
-    const data = await prisma.content.findUnique({
+    const contentData = await prisma.content.findUnique({
         where: {
             id: contentId
+        }
+    });
+    const episodeData = await prisma.episode.findMany({
+        where: {
+            contentId
+        }
+    });
+    // const data = [contentData, episodeData];
+    const data = Object.assign({}, contentData, episodeData);
+    return data;
+};
+
+//* episode 조회
+const getAllEpisode = async (contentId: number) => {
+    const data = await prisma.episode.findMany({
+        where: {
+            contentId
+        },
+    });
+    return data;
+};
+
+//* 찜한 content 조회
+const getLikeAllContent = async (userId: number) => {
+    const data = await prisma.like.findMany({
+        where: {
+            userId
+        },
+        include: {
+            Content: true
         }
     });
     return data;
@@ -55,6 +85,8 @@ const contentService = {
     getContent,
     updateContent,
     deleteContent,
+    getAllEpisode,
+    getLikeAllContent,
 };
 
 export default contentService;
